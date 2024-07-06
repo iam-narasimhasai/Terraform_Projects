@@ -17,7 +17,7 @@ id_rsa
 *.hcl
 *.lock*
 ../.terraform/*
-terraform.*
+
 
 
 # .tfstate files
