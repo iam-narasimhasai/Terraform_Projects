@@ -1,0 +1,48 @@
+digraph G {
+  rankdir = "RL";
+  node [shape = rect, fontname = "sans-serif"];
+  subgraph "cluster_module.compute" {
+    label = "module.compute"
+    fontname = "sans-serif"
+    "module.compute.aws_lb.lb" [label="aws_lb.lb"];
+    "module.compute.aws_lb_listener.aws_lb_listener" [label="aws_lb_listener.aws_lb_listener"];
+    "module.compute.aws_lb_target_group.tgforalb" [label="aws_lb_target_group.tgforalb"];
+    "module.compute.aws_security_group.sgforalb" [label="aws_security_group.sgforalb"];
+    "module.compute.aws_security_group.sgforec2" [label="aws_security_group.sgforec2"];
+    "module.compute.aws_security_group.sgfortest" [label="aws_security_group.sgfortest"];
+  }
+  subgraph "cluster_module.network" {
+    label = "module.network"
+    fontname = "sans-serif"
+    "module.network.aws_eip.eip" [label="aws_eip.eip"];
+    "module.network.aws_internet_gateway.igw_vpc" [label="aws_internet_gateway.igw_vpc"];
+    "module.network.aws_nat_gateway.nat_gateway" [label="aws_nat_gateway.nat_gateway"];
+    "module.network.aws_route_table.private_route_table" [label="aws_route_table.private_route_table"];
+    "module.network.aws_route_table.public_route_table" [label="aws_route_table.public_route_table"];
+    "module.network.aws_route_table_association.private_route_table_association" [label="aws_route_table_association.private_route_table_association"];
+    "module.network.aws_route_table_association.public_route_table_association" [label="aws_route_table_association.public_route_table_association"];
+    "module.network.aws_subnet.private_subnet" [label="aws_subnet.private_subnet"];
+    "module.network.aws_subnet.public_subnet" [label="aws_subnet.public_subnet"];
+    "module.network.aws_vpc.vpcforwebservers" [label="aws_vpc.vpcforwebservers"];
+  }
+  "module.compute.aws_lb.lb" -> "module.compute.aws_security_group.sgforalb";
+  "module.compute.aws_lb.lb" -> "module.network.aws_subnet.public_subnet";
+  "module.compute.aws_lb_listener.aws_lb_listener" -> "module.compute.aws_lb.lb";
+  "module.compute.aws_lb_listener.aws_lb_listener" -> "module.compute.aws_lb_target_group.tgforalb";
+  "module.compute.aws_lb_target_group.tgforalb" -> "module.network.aws_vpc.vpcforwebservers";
+  "module.compute.aws_security_group.sgforalb" -> "module.network.aws_vpc.vpcforwebservers";
+  "module.compute.aws_security_group.sgforec2" -> "module.compute.aws_security_group.sgforalb";
+  "module.compute.aws_security_group.sgfortest" -> "module.network.aws_vpc.vpcforwebservers";
+  "module.network.aws_eip.eip" -> "module.network.aws_internet_gateway.igw_vpc";
+  "module.network.aws_internet_gateway.igw_vpc" -> "module.network.aws_vpc.vpcforwebservers";
+  "module.network.aws_nat_gateway.nat_gateway" -> "module.network.aws_eip.eip";
+  "module.network.aws_nat_gateway.nat_gateway" -> "module.network.aws_subnet.public_subnet";
+  "module.network.aws_route_table.private_route_table" -> "module.network.aws_nat_gateway.nat_gateway";
+  "module.network.aws_route_table.public_route_table" -> "module.network.aws_internet_gateway.igw_vpc";
+  "module.network.aws_route_table_association.private_route_table_association" -> "module.network.aws_route_table.private_route_table";
+  "module.network.aws_route_table_association.private_route_table_association" -> "module.network.aws_subnet.private_subnet";
+  "module.network.aws_route_table_association.public_route_table_association" -> "module.network.aws_route_table.public_route_table";
+  "module.network.aws_route_table_association.public_route_table_association" -> "module.network.aws_subnet.public_subnet";
+  "module.network.aws_subnet.private_subnet" -> "module.network.aws_vpc.vpcforwebservers";
+  "module.network.aws_subnet.public_subnet" -> "module.network.aws_vpc.vpcforwebservers";
+}
