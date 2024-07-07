@@ -1,14 +1,6 @@
 *.exe
-**/.terraform/*
-*.tfstate
-*.tfstate.*
-.terraform.lock.hcl
-
 id_rsa
 *.pub
-
-/**/*.tfstate*
-/**/.terraform
 key1
 key1.pub
 
