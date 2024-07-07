@@ -5,16 +5,12 @@ module "network" {
   availability_zoneslist = var.availability_zones
 }
 
-# module "compute" {
-#   source = "./compute"
-#   vpc_id = module.network.aws_vpc_id
-
-
-
-# }
 
 module "compute" {
   source = "./compute"
   vpc_id = module.network.webservervpcid
   public_subnetsid = module.network.public_subnetsid
+  private_subnetsid = module.network.private_subnetsid
+  image_id = var.image_id
+  instance_type = var.instance_type 
 }

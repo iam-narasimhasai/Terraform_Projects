@@ -13,3 +13,9 @@ variable "cidr_block" {
 variable "availability_zones" {
   default = ["ap-south-1a", "ap-south-1b"]
 }
+variable "image_id" {
+  type = string
+}
+variable "instance_type" {
+  type = string
+}

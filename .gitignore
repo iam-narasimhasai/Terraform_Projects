@@ -9,7 +9,8 @@ id_rsa
 
 /**/*.tfstate*
 /**/.terraform
-
+key1
+key1.pub
 
 # Local .terraform directories
 **/.terraform/*

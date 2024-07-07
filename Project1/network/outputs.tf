@@ -7,3 +7,6 @@ output "webservervpcid" {
 output "public_subnetsid" {
   value = aws_subnet.public_subnet[*].id
 }
+output "private_subnetsid" {
+  value = aws_subnet.private_subnet[*].id
+}

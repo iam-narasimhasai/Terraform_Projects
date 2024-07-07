@@ -8,11 +8,12 @@ resource "aws_lb" "lb" {
     tags ={
         Name = "LoadBalancer"
     }
+    
   
 }
 resource "aws_lb_target_group" "tgforalb" {
   name = "tgforalb"
-  port = "80"
+  port = 80
   protocol = "HTTP"
   vpc_id = var.vpc_id
   tags = {
